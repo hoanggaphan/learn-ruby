@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Store" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Store">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <% if flash[:notice].present? %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
+    <% if flash[:alert].present? %>
+      <div class="alert"><%= flash[:alert] %></div>
+    <% end %>
+
+    <nav>
+      <%= link_to "Store", root_path, class: "brand" %>
+      <div class="nav-links">
+        <%= link_to "Products", products_path %>
+        <%= button_to "Log out", session_path, method: :delete if authenticated? %>
+        <%= link_to "Login", new_session_path unless authenticated? %>
+      </div>
+    </nav>
+
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>
